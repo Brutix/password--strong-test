@@ -1,0 +1,14 @@
+<div class="password-container">
+  <input type="text" [(ngModel)]="password" (input)="checkPassword()" placeholder="Введите пароль">
+
+  <div class="password-strength-bar">
+
+    <div class="strength-level" [ngClass]="{'weak': passwordStrength === 'weak', 'medium': passwordStrength === 'medium', 'strong': passwordStrength === 'strong'}"></div>
+    <div class="strength-level" [ngClass]="{'weak': passwordStrength === 'weak', 'medium': passwordStrength === 'medium', 'strong': passwordStrength === 'strong'}"></div>
+    <div class="strength-level" [ngClass]="{'weak': passwordStrength === 'weak', 'strong': passwordStrength === 'strong'}"></div>
+  </div>
+</div>
+
+<div class="password-strength-label">
+  <p class="password-label">Password Strength: {{ passwordStrength }}</p>
+</div>
