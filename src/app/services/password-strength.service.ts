@@ -1,21 +1,26 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
+
 export class PasswordStrengthService {
 
   passwordStrength: string = '';
 
-  constructor() { }
+  constructor() {}
 
   checkPasswordStrength(password: string) {
-    const strongRegex = new RegExp("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).*$");
-    const mediumRegex = new RegExp("^(?=.*[a-zA-Z!@#$%^&*()])(?=.*[0-9!@#$%^&*()])(?=.*[0-9a-zA-Z]).*$");
-
+    const strongRegex = new RegExp(
+      '^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).*$'
+    );
+    const mediumRegex = new RegExp(
+      '^(?=.*[a-zA-Z!@#$%^&*()])(?=.*[0-9!@#$%^&*()])(?=.*[0-9a-zA-Z]).*$'
+    );
 
     if (strongRegex.test(password) && password.length >= 8) {
-      return  'strong';
+      return 'strong';
     } else if (mediumRegex.test(password) && password.length >= 8) {
       return 'medium';
     } else {
