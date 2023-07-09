@@ -1,11 +1,16 @@
-<div class = "password-container" [formGroup]="form">
+<div class="password-container" [formGroup]="form">
   <input type="text" formControlName="password" (input)="checkPassword()" placeholder="Введите пароль">
 
   <div class="password-strength-bar">
 
-    <div class="strength-level" [ngClass]="{'weak': passwordStrength === 'weak', 'medium': passwordStrength === 'medium', 'strong': passwordStrength === 'strong'}"></div>
-    <div class="strength-level" [ngClass]="{'weak': passwordStrength === 'weak', 'medium': passwordStrength === 'medium', 'strong': passwordStrength === 'strong'}"></div>
-    <div class="strength-level" [ngClass]="{'weak': passwordStrength === 'weak', 'strong': passwordStrength === 'strong'}"></div>
+    <div class="strength-level"
+      [ngClass]="{'weak': passwordStrength === 'weak', 'medium': passwordStrength === 'medium', 'strong': passwordStrength === 'strong'}">
+    </div>
+    <div class="strength-level"
+      [ngClass]="{'weak': passwordStrength === 'weak', 'medium': passwordStrength === 'medium', 'strong': passwordStrength === 'strong'}">
+    </div>
+    <div class="strength-level"
+      [ngClass]="{'weak': passwordStrength === 'weak', 'strong': passwordStrength === 'strong'}"></div>
   </div>
 </div>
 

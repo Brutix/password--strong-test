@@ -1,5 +1,10 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { PasswordStrengthService } from 'src/app/services/password-strength.service';
 
 
@@ -13,9 +18,9 @@ import { PasswordStrengthService } from 'src/app/services/password-strength.serv
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => MainComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 
 
@@ -29,7 +34,7 @@ export class MainComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      password: ''
+      password: '',
     });
   }
 
@@ -39,7 +44,7 @@ export class MainComponent implements ControlValueAccessor, OnInit {
     private formBuilder: FormBuilder
   ) {
     this.form = this.formBuilder.group({
-      password: ''
+      password: '',
     });
   }
 
@@ -60,7 +65,8 @@ export class MainComponent implements ControlValueAccessor, OnInit {
 
   checkPassword() {
     const password = this.form.value.password;
-    this.passwordStrength = this.passwordStrengthService.checkPasswordStrength(password);
+    this.passwordStrength =
+      this.passwordStrengthService.checkPasswordStrength(password);
     this.onChange(this.passwordStrength);
     this.onTouched();
   }
