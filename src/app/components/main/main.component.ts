@@ -1,52 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, FormGroup } from '@angular/forms';
+import { PasswordStrengthService } from 'src/app/services/password-strength.service';
+
 
 
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MainComponent),
+      multi: true
+    }
+  ]
 })
 
 
-
-export class MainComponent implements OnInit {
-  password: string = '';
+export class MainComponent implements ControlValueAccessor, OnInit {
+  form: FormGroup;
   passwordStrength: string = '';
 
-  checkPassword() {
-    const strongRegex = new RegExp("^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()])(?=.*[0-9]).*$");
-    const mediumRegex = new RegExp("^(?=.*[a-zA-Z!@#$%^&*()])(?=.*[0-9!@#$%^&*()])(?=.*[0-9a-zA-Z]).*$");
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
 
-
-    if (strongRegex.test(this.password) && this.password.length >= 8) {
-      this.passwordStrength = 'strong';
-    } else if (mediumRegex.test(this.password) && this.password.length >= 8) {
-      this.passwordStrength = 'medium';
-    } else if (this.password.length < 8){
-      this.passwordStrength = 'weak';
-    }
-  }
-
-  getPasswordStrength(strength: string): string {
-    if (this.passwordStrength === strength) {
-      return '100%';
-    } else {
-      return '0%';
-    }
-  }
-
-
-
-
-
-
-
-
-  constructor() { }
 
   ngOnInit(): void {
-
+    this.form = this.formBuilder.group({
+      password: ''
+    });
   }
+
+
+  constructor(
+    private passwordStrengthService: PasswordStrengthService,
+    private formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      password: ''
+    });
+  }
+
+  writeValue(value: any): void {
+    if (value !== undefined) {
+      this.form.patchValue({ password: value });
+      this.checkPassword();
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  checkPassword() {
+    const password = this.form.value.password;
+    this.passwordStrength = this.passwordStrengthService.checkPasswordStrength(password);
+    this.onChange(this.passwordStrength);
+    this.onTouched();
+  }
+
 
 }
